@@ -1,4 +1,4 @@
-# FarmaCare Frontend
+# SafeWalk Frontend
 
 Created in flutter using MobX and Provider.
 
