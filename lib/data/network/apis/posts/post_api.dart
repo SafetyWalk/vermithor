@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:safewalk/data/network/constants/endpoints.dart';
 import 'package:safewalk/data/network/dio_client.dart';
+import 'package:safewalk/data/network/exceptions/network_exceptions.dart';
 import 'package:safewalk/data/network/rest_client.dart';
 import 'package:safewalk/models/post/post_list.dart';
 
@@ -27,12 +28,12 @@ class PostApi {
   }
 
 /// sample api call with default rest client
-//  Future<PostsList> getPosts() {
-//
-//    return _restClient
-//        .get(Endpoints.getPosts)
-//        .then((dynamic res) => PostsList.fromJson(res))
-//        .catchError((error) => throw NetworkException(message: error));
-//  }
+ Future<PostList> getPostsRest() async {
+
+   return _restClient
+       .get(Endpoints.getPosts)
+       .then((dynamic res) => PostList.fromJson(res))
+       .catchError((error) => throw NetworkException(message: error));
+ }
 
 }
