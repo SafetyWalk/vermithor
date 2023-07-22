@@ -16,6 +16,11 @@
         android:icon="@mipmap/ic_launcher"
         android:usesCleartextTraffic="true"
         android:label="SafeWalk">
+
+         <!-- TODO: Add Google Maps API key here -->
+        <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="PUT-THE-KEY-HERE"/>
+
         <activity
             android:name=".MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|locale|layoutDirection|fontScale|screenLayout|density"
