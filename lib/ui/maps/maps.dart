@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:math';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:safewalk/stores/location/locations.dart' as locations;
 
@@ -9,6 +10,29 @@ class MapsScreen extends StatefulWidget {
 
 class _MapsScreenState extends State<MapsScreen> {
   final Map<String, Marker> _markers = {};
+  GoogleMapController? _mapController;
+  double _zoomLevel = 15.4;
+
+  void _zoomIn() {
+    setState(() {
+      _zoomLevel = min(_zoomLevel + 1, 20); // Set a maximum zoom level if desired
+    });
+    _updateCameraPosition();
+  }
+
+  void _zoomOut() {
+    setState(() {
+      _zoomLevel = max(_zoomLevel - 1, 1); // Set a minimum zoom level if desired
+    });
+    _updateCameraPosition();
+  }
+
+  void _updateCameraPosition() {
+    _mapController?.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(target: LatLng(-6.36046, 106.82722), zoom: _zoomLevel),
+    ));
+  }
+
   Future<void> _onMapCreated(GoogleMapController controller) async {
     final googleOffices = await locations.getGoogleOffices();
     setState(() {
@@ -36,16 +60,41 @@ class _MapsScreenState extends State<MapsScreen> {
       ),
       home: Scaffold(
         appBar: AppBar(
-          title: const Text('Google Office Locations'),
+          title: const Text('University of Indonesia'),
           elevation: 2,
         ),
-        body: GoogleMap(
-          onMapCreated: _onMapCreated,
-          initialCameraPosition: const CameraPosition(
-            target: LatLng(0, 0),
-            zoom: 2,
-          ),
-          markers: _markers.values.toSet(),
+        body: Stack(
+          children: [
+            GoogleMap(
+              onMapCreated: (controller) {
+                _mapController = controller;
+                _onMapCreated(controller);
+              },
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(-6.36046, 106.82722),
+                zoom: 15.4,
+              ),
+              markers: _markers.values.toSet(),
+              myLocationButtonEnabled: false
+            ),
+            Positioned(
+              bottom: 16,
+              right: 16,
+              child: Column(
+                children: [
+                  FloatingActionButton(
+                    onPressed: _zoomIn,
+                    child: Icon(Icons.zoom_in),
+                  ),
+                  SizedBox(height: 10),
+                  FloatingActionButton(
+                    onPressed: _zoomOut,
+                    child: Icon(Icons.zoom_out),
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
