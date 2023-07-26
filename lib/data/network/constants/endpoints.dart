@@ -4,7 +4,7 @@ class Endpoints {
   Endpoints._();
 
   // post url
-  static final String postUrl = "https://jsonplaceholder.typicode.com/";
+  static final String postUrl = "https://jsonplaceholder.typicode.com";
 
   // base url
   static final String baseUrl = Environment.asclepiusURL;
