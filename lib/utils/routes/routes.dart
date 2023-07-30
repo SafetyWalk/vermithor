@@ -1,5 +1,6 @@
 import 'package:safewalk/ui/home/home.dart';
 import 'package:safewalk/ui/login/login.dart';
+import 'package:safewalk/ui/maps/distance.dart';
 import 'package:safewalk/ui/maps/maps.dart';
 import 'package:safewalk/ui/post/post.dart';
 import 'package:safewalk/ui/splash/splash.dart';
@@ -13,6 +14,7 @@ class Routes {
   static const String login = '/login';
   static const String home = '/home';
   static const String map = '/map';
+  static const String distanceMap = '/distanceMap';
   static const String post = '/post';
 
   static final routes = <String, WidgetBuilder>{
@@ -20,6 +22,7 @@ class Routes {
     login: (BuildContext context) => LoginScreen(),
     home: (BuildContext context) => HomeScreen(),
     map : (BuildContext context) => MapsScreen(),
+    distanceMap : (BuildContext context) => MapDistanceScreen(),
     post: (BuildContext context) => PostScreen(),
   };
 }

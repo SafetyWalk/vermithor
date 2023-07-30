@@ -111,12 +111,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildMainContent() {
     return Container(
       // create a button to redirect to maps
-      child: ElevatedButton(
-        onPressed: () {
-          Navigator.of(context).pushNamed(Routes.map);
-        },
-        child: Text(
-          "Go to Maps"
+      child: Center(
+        child: Column(
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.map);
+              },
+              child: Text(
+                "Go to Maps"
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.distanceMap);
+              },
+              child: Text(
+                "Go to Distance Maps"
+              ),
+            )
+          ],
         ),
       ),
     );
