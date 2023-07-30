@@ -17,6 +17,8 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>SafeWalk</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Your app needs access to your location to function properly.</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
