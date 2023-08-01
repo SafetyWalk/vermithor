@@ -20,6 +20,7 @@
 /// `import 'path/to/theme.dart';`
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:safewalk/constants/colors.dart';
 
 class AppThemeData {
   static const _lightFillColor = Colors.black;
@@ -76,11 +77,11 @@ class AppThemeData {
   );
 
   static const ColorScheme darkColorScheme = ColorScheme(
-    primary: Color(0xFFFF8383),
-    primaryContainer: Color(0xFF1CDEC9),
+    primary: AppColors.primaryDark,
+    primaryContainer: AppColors.containerDark,
     secondary: Color(0xFF4D1F7C),
     secondaryContainer: Color(0xFF451B6F),
-    background: Color(0xFF241E30),
+    background: AppColors.backgroundDark,
     surface: Color(0xFF1F1929),
     onBackground: Color(0x0DFFFFFF),
     // White with 0.05 opacity
