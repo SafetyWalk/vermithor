@@ -11,7 +11,7 @@ Created in flutter using MobX and Provider.
 Download or clone this repo by using the link below:
 
 ```
-https://github.com/FarmaCare-id/hermione.git
+https://github.com/SafetyWalk/vermithor.git
 ```
 
 **Step 2:**
