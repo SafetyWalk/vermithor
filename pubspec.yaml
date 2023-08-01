@@ -116,7 +116,8 @@ flutter:
     - assets/images/
     - assets/icons/
     - assets/lang/
-    - assets/locations.json
+    - assets/maps/locations.json
+    - assets/maps/night_mode.json
     - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see

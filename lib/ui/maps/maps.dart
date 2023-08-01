@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'dart:math';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:safewalk/stores/location/locations.dart' as locations;
@@ -10,8 +11,10 @@ class MapsScreen extends StatefulWidget {
 
 class _MapsScreenState extends State<MapsScreen> {
   final Map<String, Marker> _markers = {};
-  GoogleMapController? _mapController;
+  late GoogleMapController _mapController;
   double _zoomLevel = 15.4;
+  bool _nightMode = false;
+  bool _isMapCreated = false;
 
   void _zoomIn() {
     setState(() {
@@ -36,6 +39,8 @@ class _MapsScreenState extends State<MapsScreen> {
   Future<void> _onMapCreated(GoogleMapController controller) async {
     final googleOffices = await locations.getGoogleOffices();
     setState(() {
+      _mapController = controller;
+      _isMapCreated = true;
       _markers.clear();
       for (final office in googleOffices.offices) {
         final marker = Marker(
@@ -91,12 +96,42 @@ class _MapsScreenState extends State<MapsScreen> {
                     onPressed: _zoomOut,
                     child: Icon(Icons.zoom_out),
                   ),
+                  _nightModeToggler()
                 ],
               ),
             ),
           ],
         ),
       ),
+    );
+  }
+
+  Future<String> _getFileData(String path) async {
+    return rootBundle.loadString(path);
+  }
+
+  void _setMapStyle(String mapStyle) {
+    setState(() {
+      _nightMode = true;
+      _mapController.setMapStyle(mapStyle);
+    });
+  }
+
+  // Should only be called if _isMapCreated is true.
+  Widget _nightModeToggler() {
+    // assert(_isMapCreated);
+    return TextButton(
+      child: Text('${_nightMode ? 'disable' : 'enable'} night mode'),
+      onPressed: () {
+        if (_nightMode) {
+          setState(() {
+            _nightMode = false;
+            _mapController.setMapStyle(null);
+          });
+        } else {
+          _getFileData('assets/maps/night_mode.json').then(_setMapStyle);
+        }
+      },
     );
   }
 }
