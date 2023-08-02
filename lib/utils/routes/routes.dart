@@ -1,7 +1,11 @@
+import 'package:safewalk/ui/auth/register/biodata.dart';
+import 'package:safewalk/ui/auth/register/selfpict.dart';
+import 'package:safewalk/ui/auth/register/success.dart';
 import 'package:safewalk/ui/home/home.dart';
-import 'package:safewalk/ui/login/login.dart';
+import 'package:safewalk/ui/auth/login/login.dart';
 import 'package:safewalk/ui/maps/distance.dart';
 import 'package:safewalk/ui/maps/maps.dart';
+import 'package:safewalk/ui/onboard/onboarding.dart';
 import 'package:safewalk/ui/post/post.dart';
 import 'package:safewalk/ui/splash/splash.dart';
 import 'package:flutter/material.dart';
@@ -17,6 +21,11 @@ class Routes {
   static const String distanceMap = '/distanceMap';
   static const String post = '/post';
 
+  static const String onboarding = '/onboarding';
+  static const String biodata = '/biodata';
+  static const String selfpict = '/selfpict';
+  static const String success = '/success';
+
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
     login: (BuildContext context) => LoginScreen(),
@@ -24,6 +33,11 @@ class Routes {
     map : (BuildContext context) => MapsScreen(),
     distanceMap : (BuildContext context) => MapDistanceScreen(),
     post: (BuildContext context) => PostScreen(),
+
+    onboarding: (BuildContext context) => OnboardingAnimationScreen(),
+    biodata: (BuildContext context) => BiodataScreen(),
+    selfpict: (BuildContext context) => SelfPictScreen(),
+    success: (BuildContext context) => SuccessScreen(),
   };
 }
 
