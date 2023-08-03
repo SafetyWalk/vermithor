@@ -6,7 +6,6 @@ import 'package:safewalk/stores/form/form_store.dart';
 import 'package:safewalk/stores/theme/theme_store.dart';
 import 'package:safewalk/utils/device/device_utils.dart';
 import 'package:safewalk/utils/locale/app_localization.dart';
-import 'package:safewalk/widgets/app_icon_widget.dart';
 import 'package:safewalk/widgets/empty_app_bar_widget.dart';
 import 'package:safewalk/widgets/progress_indicator_widget.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,6 @@ class _SuccessScreenState extends State<SuccessScreen> {
   //text controllers:-----------------------------------------------------------
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
 
   //stores:---------------------------------------------------------------------
   late ThemeStore _themeStore;

@@ -187,7 +187,7 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
           height: 32,
         ),
         Text(
-          "Success",
+          "Upload Your Photo Profile",
           textAlign: TextAlign.start,
           style: TextStyle(
             fontSize: 32.0,
@@ -206,103 +206,6 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
           ),
         ),
       ],
-    );
-  }
-
-  Widget _buildFirstNameField() {
-    return Observer(
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: "First Name",
-              prefixIcon: Icon(Icons.person,
-                  color:
-                      _themeStore.darkMode ? Colors.white70 : Colors.black54),
-              filled: true,
-              fillColor: AppColors.containerDark,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide.none,
-              ),
-              errorText: _store.formErrorStore.userEmail,
-            ),
-            keyboardType: TextInputType.emailAddress,
-            textInputAction: TextInputAction.next,
-            controller: _firstNameController,
-            autofocus: false,
-            onChanged: (value) {
-              _store.setUserId(_firstNameController.text);
-            },
-            onSubmitted: (value) {
-              FocusScope.of(context).requestFocus(_passwordFocusNode);
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildLastNameField() {
-    return Observer(
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: 'Last Name',
-              prefixIcon: Icon(Icons.people,
-                  color:
-                      _themeStore.darkMode ? Colors.white70 : Colors.black54),
-              filled: true,
-              fillColor: AppColors.containerDark,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide.none,
-              ),
-              errorText: _store.formErrorStore.password,
-            ),
-            obscureText: true,
-            controller: _lastNameController,
-            focusNode: _passwordFocusNode,
-            onChanged: (value) {
-              _store.setPassword(_lastNameController.text);
-            },
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildPhoneNumberField() {
-    return Observer(
-      builder: (context) {
-        return Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: TextField(
-            decoration: InputDecoration(
-              hintText: "Phone Number",
-              prefixIcon: Icon(Icons.phone_iphone,
-                  color:
-                      _themeStore.darkMode ? Colors.white70 : Colors.black54),
-              filled: true,
-              fillColor: AppColors.containerDark,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(15),
-                borderSide: BorderSide.none,
-              ),
-              errorText: _store.formErrorStore.password,
-            ),
-            obscureText: true,
-            controller: _lastNameController,
-            focusNode: _passwordFocusNode,
-            onChanged: (value) {
-              _store.setPassword(_phoneNumberController.text);
-            },
-          ),
-        );
-      },
     );
   }
 

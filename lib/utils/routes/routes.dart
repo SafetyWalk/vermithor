@@ -1,4 +1,5 @@
 import 'package:safewalk/ui/auth/register/biodata.dart';
+import 'package:safewalk/ui/auth/register/register.dart';
 import 'package:safewalk/ui/auth/register/selfpict.dart';
 import 'package:safewalk/ui/auth/register/success.dart';
 import 'package:safewalk/ui/home/home.dart';
@@ -22,6 +23,7 @@ class Routes {
   static const String post = '/post';
 
   static const String onboarding = '/onboarding';
+  static const String register = '/register';
   static const String biodata = '/biodata';
   static const String selfpict = '/selfpict';
   static const String success = '/success';
@@ -30,16 +32,13 @@ class Routes {
     splash: (BuildContext context) => SplashScreen(),
     login: (BuildContext context) => LoginScreen(),
     home: (BuildContext context) => HomeScreen(),
-    map : (BuildContext context) => MapsScreen(),
-    distanceMap : (BuildContext context) => MapDistanceScreen(),
+    map: (BuildContext context) => MapsScreen(),
+    distanceMap: (BuildContext context) => MapDistanceScreen(),
     post: (BuildContext context) => PostScreen(),
-
     onboarding: (BuildContext context) => OnboardingAnimationScreen(),
+    register: (BuildContext context) => RegisterScreen(),
     biodata: (BuildContext context) => BiodataScreen(),
     selfpict: (BuildContext context) => SelfPictScreen(),
     success: (BuildContext context) => SuccessScreen(),
   };
 }
-
-
-
