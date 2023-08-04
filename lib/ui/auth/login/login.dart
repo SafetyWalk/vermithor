@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:safewalk/constants/assets.dart';
 import 'package:safewalk/constants/colors.dart';
 import 'package:safewalk/data/sharedpref/constants/preferences.dart';
+import 'package:safewalk/stores/user/user_store.dart';
 import 'package:safewalk/utils/routes/routes.dart';
 import 'package:safewalk/stores/form/form_store.dart';
 import 'package:safewalk/stores/theme/theme_store.dart';
@@ -26,6 +27,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   //stores:---------------------------------------------------------------------
   late ThemeStore _themeStore;
+  late UserStore _userStore;
 
   //focus node:-----------------------------------------------------------------
   late FocusNode _passwordFocusNode;
@@ -43,6 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _themeStore = Provider.of<ThemeStore>(context);
+    _userStore = Provider.of<UserStore>(context);
   }
 
   @override
@@ -186,6 +189,7 @@ class _LoginScreenState extends State<LoginScreen> {
           child: ElevatedButton(
             onPressed: () {
               // TODO: Handle sign in with Google logic
+              _userStore.signInWithGoogle();
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.containerDark,
