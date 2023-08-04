@@ -35,13 +35,13 @@ mixin _$UserStore on _UserStore, Store {
       Atom(name: '_UserStore.firebaseUser', context: context);
 
   @override
-  User? get firebaseUser {
+  FirebaseAuth? get firebaseUser {
     _$firebaseUserAtom.reportRead();
     return super.firebaseUser;
   }
 
   @override
-  set firebaseUser(User? value) {
+  set firebaseUser(FirebaseAuth? value) {
     _$firebaseUserAtom.reportWrite(value, super.firebaseUser, () {
       super.firebaseUser = value;
     });

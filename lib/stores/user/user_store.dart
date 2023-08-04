@@ -56,8 +56,9 @@ abstract class _UserStore with Store {
   @observable
   bool success = false;
 
+
   @observable
-  User? firebaseUser;
+  FirebaseAuth? firebaseUser = FirebaseAuth.instance;
 
   @observable
   ObservableFuture<bool> loginFuture = emptyLoginResponse;
@@ -103,12 +104,12 @@ abstract class _UserStore with Store {
           idToken: googleSignInAuthentication.idToken,
         );
         final UserCredential authResult = await _auth.signInWithCredential(credential);
-        final User user = authResult.user!;
+        // final User user = authResult.user!;
         
         _repository.saveIsLoggedIn(true);
         this.isLoggedIn = true;
         this.success = true;
-        this.firebaseUser = user;
+        this.firebaseUser = _auth;
       }
     } catch (e) {
       print('Error signing in with Google: $e');
