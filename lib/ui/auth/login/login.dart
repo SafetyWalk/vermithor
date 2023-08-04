@@ -33,7 +33,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late FocusNode _passwordFocusNode;
 
   //stores:---------------------------------------------------------------------
-  final _store = FormStore();
+  final _formStore = FormStore();
 
   @override
   void initState() {
@@ -78,9 +78,9 @@ class _LoginScreenState extends State<LoginScreen> {
               : Center(child: _buildRightSide()),
           Observer(
             builder: (context) {
-              return _store.success
+              return _formStore.success
                   ? navigate(context)
-                  : _showErrorMessage(_store.errorStore.errorMessage);
+                  : _showErrorMessage(_formStore.errorStore.errorMessage);
             },
           ),
           Observer(
@@ -93,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Observer(
             builder: (context) {
               return Visibility(
-                visible: _store.loading,
+                visible: _formStore.loading,
                 child: CustomProgressIndicatorWidget(),
               );
             },
@@ -284,14 +284,14 @@ class _LoginScreenState extends State<LoginScreen> {
               borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide.none,
             ),
-            errorText: _store.formErrorStore.userEmail,
+            errorText: _formStore.formErrorStore.userEmail,
           ),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           controller: _userEmailController,
           autofocus: false,
           onChanged: (value) {
-            _store.setUserId(_userEmailController.text);
+            _formStore.setUserId(_userEmailController.text);
           },
           onSubmitted: (value) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -316,13 +316,13 @@ class _LoginScreenState extends State<LoginScreen> {
               borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide.none,
             ),
-            errorText: _store.formErrorStore.password,
+            errorText: _formStore.formErrorStore.password,
           ),
           obscureText: true,
           controller: _passwordController,
           focusNode: _passwordFocusNode,
           onChanged: (value) {
-            _store.setPassword(_passwordController.text);
+            _formStore.setPassword(_passwordController.text);
           },
         );
       },
@@ -362,9 +362,9 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildSignInButton() {
     return InkWell(
       onTap: () async {
-        if (_store.canLogin) {
+        if (_formStore.canLogin) {
           DeviceUtils.hideKeyboard(context);
-          _store.login();
+          _formStore.login();
         } else {
           _showErrorMessage('Please fill in all fields');
         }
