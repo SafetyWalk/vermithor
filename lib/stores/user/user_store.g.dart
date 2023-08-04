@@ -31,6 +31,22 @@ mixin _$UserStore on _UserStore, Store {
     });
   }
 
+  late final _$firebaseUserAtom =
+      Atom(name: '_UserStore.firebaseUser', context: context);
+
+  @override
+  User? get firebaseUser {
+    _$firebaseUserAtom.reportRead();
+    return super.firebaseUser;
+  }
+
+  @override
+  set firebaseUser(User? value) {
+    _$firebaseUserAtom.reportWrite(value, super.firebaseUser, () {
+      super.firebaseUser = value;
+    });
+  }
+
   late final _$loginFutureAtom =
       Atom(name: '_UserStore.loginFuture', context: context);
 
@@ -55,10 +71,27 @@ mixin _$UserStore on _UserStore, Store {
     return _$loginAsyncAction.run(() => super.login(email, password));
   }
 
+  late final _$signInWithGoogleAsyncAction =
+      AsyncAction('_UserStore.signInWithGoogle', context: context);
+
+  @override
+  Future<void> signInWithGoogle() {
+    return _$signInWithGoogleAsyncAction.run(() => super.signInWithGoogle());
+  }
+
+  late final _$logoutAsyncAction =
+      AsyncAction('_UserStore.logout', context: context);
+
+  @override
+  Future<void> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
+  }
+
   @override
   String toString() {
     return '''
 success: ${success},
+firebaseUser: ${firebaseUser},
 loginFuture: ${loginFuture},
 isLoading: ${isLoading}
     ''';
