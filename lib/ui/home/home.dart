@@ -1,4 +1,6 @@
 import 'package:safewalk/data/sharedpref/constants/preferences.dart';
+import 'package:safewalk/stores/user/user_store.dart';
+import 'package:safewalk/utils/device/device_utils.dart';
 import 'package:safewalk/utils/routes/routes.dart';
 import 'package:safewalk/stores/language/language_store.dart';
 import 'package:safewalk/stores/theme/theme_store.dart';
@@ -18,6 +20,7 @@ class _HomeScreenState extends State<HomeScreen> {
   //stores:---------------------------------------------------------------------
   late ThemeStore _themeStore;
   late LanguageStore _languageStore;
+  late UserStore _userStore;
 
   @override
   void initState() {
@@ -31,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
     // initializing stores
     _languageStore = Provider.of<LanguageStore>(context);
     _themeStore = Provider.of<ThemeStore>(context);
+    _userStore = Provider.of<UserStore>(context);
   }
 
   @override
@@ -44,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
   // app bar methods:-----------------------------------------------------------
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text(AppLocalizations.of(context).translate('home_tv_posts')),
+      title: Text('SafeWalk Dashboard'),
       actions: _buildActions(context),
     );
   }
@@ -102,6 +106,9 @@ class _HomeScreenState extends State<HomeScreen> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
+          SizedBox(
+            height: DeviceUtils.getScaledHeight(context, 0.1)
+          ),
           _buildMainContent(),
         ],
       ),
@@ -114,6 +121,33 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Center(
         child: Column(
           children: [
+            Text(
+              "Welcome ${_userStore.firebaseUser!.currentUser?.displayName ?? "Guest User"}",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Your email is: ${_userStore.firebaseUser!.currentUser?.email ?? "Guest User"}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
+            Text(
+              "Your phone number is: ${_userStore.firebaseUser!.currentUser?.phoneNumber ?? "Not Provided"}",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            Image.network(
+              _userStore.firebaseUser!.currentUser?.photoURL ?? "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
+              height: 200,
+              width: 200,
+            ),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(Routes.map);
@@ -129,7 +163,7 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(
                 "Go to Distance Maps"
               ),
-            )
+            ),
           ],
         ),
       ),
