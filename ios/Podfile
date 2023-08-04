@@ -5,6 +5,9 @@ platform :ios, '13.0' # Uncomment and set to 13.
 # CocoaPods analytics sends network stats synchronously affecting flutter build latency.
 ENV['COCOAPODS_DISABLE_STATS'] = 'true'
 
+# Add this line to opt into generating module maps globally
+use_modular_headers!
+
 project 'Runner', {
   'Debug' => :debug,
   'Profile' => :release,

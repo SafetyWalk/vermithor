@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "201010132880",
+    "project_id": "safewalk-a2a20",
+    "storage_bucket": "safewalk-a2a20.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:201010132880:android:685246f7df32ec00592515",
+        "android_client_info": {
+          "package_name": "com.synapse.safewalk"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "201010132880-95mdf6edhgsk5autqb8nsehf106lgfkh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSCCSVrPoc3ivPmhQqGqnF4HfCjJwP5eI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "201010132880-95mdf6edhgsk5autqb8nsehf106lgfkh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "201010132880-0q1gl6k3tuhtsn7t1u7q68l90gthdums.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.synapse.safewalk"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
