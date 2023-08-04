@@ -85,6 +85,13 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           Observer(
             builder: (context) {
+              return _userStore.success
+                  ? navigate(context)
+                  : _showErrorMessage(_userStore.errorStore.errorMessage);
+            },
+          ),
+          Observer(
+            builder: (context) {
               return Visibility(
                 visible: _store.loading,
                 child: CustomProgressIndicatorWidget(),
@@ -187,7 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
           // width: DeviceUtils.getScaledWidth(context, 0.3),
           height: 70,
           child: ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               // TODO: Handle sign in with Google logic
               _userStore.signInWithGoogle();
             },
