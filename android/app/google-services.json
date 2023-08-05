@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "201010132880-en3eh7s8uvpdlnk493ftcjak8rpchkpm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.synapse.safewalk",
+            "certificate_hash": "4ecfec9b3387b5f5e142b186ba3e21012d0af561"
+          }
+        },
+        {
           "client_id": "201010132880-95mdf6edhgsk5autqb8nsehf106lgfkh.apps.googleusercontent.com",
           "client_type": 3
         }
