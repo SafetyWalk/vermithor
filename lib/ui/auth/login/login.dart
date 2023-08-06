@@ -35,6 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
   //stores:---------------------------------------------------------------------
   final _formStore = FormStore();
 
+  bool _isObscure = true;
+
   @override
   void initState() {
     super.initState();
@@ -317,8 +319,20 @@ class _LoginScreenState extends State<LoginScreen> {
               borderSide: BorderSide.none,
             ),
             errorText: _formStore.formErrorStore.password,
+            suffixIcon: IconButton(
+              icon: Icon(
+                // Show password
+                _isObscure ? Icons.visibility : Icons.visibility_off,
+                color: _themeStore.darkMode ? Colors.white70 : Colors.black54,
+              ),
+              onPressed: () {
+                setState(() {
+                  _isObscure = !_isObscure;
+                });
+              },
+            ),
           ),
-          obscureText: true,
+          obscureText: _isObscure,
           controller: _passwordController,
           focusNode: _passwordFocusNode,
           onChanged: (value) {

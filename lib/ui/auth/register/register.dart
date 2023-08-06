@@ -34,6 +34,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   bool _isKeepLoggedIn = false;
   bool _isSubscribe = false;
+  bool _isObscure = true;
 
   @override
   void initState() {
@@ -242,8 +243,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
       },
     );
   }
-
-  bool _isObscure = true;
 
   Widget _buildPasswordField() {
     return Observer(
