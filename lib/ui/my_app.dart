@@ -39,7 +39,9 @@ class MyApp extends StatelessWidget {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             title: Strings.appName,
-            theme: AppThemeData.darkThemeData,
+            theme: _themeStore.darkMode
+                ? AppThemeData.darkThemeData
+                : AppThemeData.lightThemeData,
             routes: Routes.routes,
             locale: Locale(_languageStore.locale),
             supportedLocales: _languageStore.supportedLanguages

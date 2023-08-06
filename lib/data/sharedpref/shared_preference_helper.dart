@@ -35,7 +35,7 @@ class SharedPreferenceHelper {
 
   // Theme:------------------------------------------------------
   bool get isDarkMode {
-    return _sharedPreference.getBool(Preferences.is_dark_mode) ?? false;
+    return _sharedPreference.getBool(Preferences.is_dark_mode) ?? true;
   }
 
   Future<void> changeBrightnessToDark(bool value) {
