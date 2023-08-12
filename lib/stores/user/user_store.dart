@@ -29,7 +29,6 @@ abstract class _UserStore with Store {
 
   // constructor:---------------------------------------------------------------
   _UserStore(Repository repository) : this._repository = repository {
-
     // setting up disposers
     _setupDisposers();
 
@@ -50,12 +49,11 @@ abstract class _UserStore with Store {
 
   // empty responses:-----------------------------------------------------------
   static ObservableFuture<bool> emptyLoginResponse =
-  ObservableFuture.value(false);
+      ObservableFuture.value(false);
 
   // store variables:-----------------------------------------------------------
   @observable
   bool success = false;
-
 
   @observable
   FirebaseAuth? firebaseUser = FirebaseAuth.instance;
@@ -69,7 +67,6 @@ abstract class _UserStore with Store {
   // actions:-------------------------------------------------------------------
   @action
   Future login(String email, String password) async {
-
     final future = _repository.login(email, password);
     loginFuture = ObservableFuture(future);
     await future.then((value) async {
@@ -91,25 +88,43 @@ abstract class _UserStore with Store {
   // lthis.isLoggedIn = false;
   //   _repository.saveIsLoggedIn(false);
   // }ogout() {
-    
 
   @action
   Future<void> signInWithGoogle() async {
     try {
-      final GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+      final GoogleSignInAccount? googleSignInAccount =
+          await _googleSignIn.signIn();
       if (googleSignInAccount != null) {
-        final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+        final GoogleSignInAuthentication googleSignInAuthentication =
+            await googleSignInAccount.authentication;
         final AuthCredential credential = GoogleAuthProvider.credential(
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
-        final UserCredential authResult = await _auth.signInWithCredential(credential);
+        final UserCredential authResult =
+            await _auth.signInWithCredential(credential);
         // final User user = authResult.user!;
-        
+
         _repository.saveIsLoggedIn(true);
         this.isLoggedIn = true;
         this.success = true;
         this.firebaseUser = _auth;
+
+        User user = await FirebaseAuth.instance.currentUser!;
+
+        // check if the user is a first-time user
+        DateTime? creationTime = user.metadata.creationTime;
+        DateTime? lastSignInTime = user.metadata.lastSignInTime;
+        if (lastSignInTime!.difference(creationTime!) <
+            Duration(minutes: 1)) {
+          // TODO - save user to backend
+          print('first time user');
+        } else {
+          // TODO - get user from backend
+          print('returning user');
+          print(user.metadata.creationTime);
+          print(user.metadata.lastSignInTime);
+        }
       }
     } catch (e) {
       print('Error signing in with Google: $e');
@@ -127,7 +142,6 @@ abstract class _UserStore with Store {
     _repository.saveIsLoggedIn(false);
     this.firebaseUser = null;
   }
-
 
   // general methods:-----------------------------------------------------------
   void dispose() {
