@@ -17,4 +17,9 @@ class Endpoints {
 
   // booking endpoints
   static final String getPosts = postUrl + "/posts";
+
+  // login endpoints
+  static final String auth = baseUrl + "/authentication";
+  static final String loginRegular = auth + "/manual-user";
+  static final String loginGoogle = auth + "/google-user";
 }
