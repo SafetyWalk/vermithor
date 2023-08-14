@@ -10,6 +10,8 @@ import 'package:safewalk/ui/onboard/onboarding.dart';
 import 'package:safewalk/ui/post/post.dart';
 import 'package:safewalk/ui/splash/splash.dart';
 import 'package:flutter/material.dart';
+import 'package:safewalk/ui/storage/library.dart';
+import 'package:safewalk/ui/storage/storage.dart';
 
 class Routes {
   Routes._();
@@ -28,6 +30,9 @@ class Routes {
   static const String selfpict = '/selfpict';
   static const String success = '/success';
 
+  static const String storage = '/storage';
+  static const String library = '/library';
+
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
     login: (BuildContext context) => LoginScreen(),
@@ -40,5 +45,8 @@ class Routes {
     biodata: (BuildContext context) => BiodataScreen(),
     selfpict: (BuildContext context) => SelfPictScreen(),
     success: (BuildContext context) => SuccessScreen(),
+
+    storage: (BuildContext context) => StorageScreen(),
+    library: (BuildContext context) => LibraryScreen(),
   };
 }
