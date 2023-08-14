@@ -63,5 +63,11 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+  	<string>Camera usage needed in order to take pictures.</string>
+  	<key>NSPhotoLibraryUsageDescription</key>
+    <string>Camera usage needed in order to take pictures.</string>
+	<key>UIApplicationSupportsIndirectInputEvents</key>
+	<true/>
 </dict>
 </plist>
