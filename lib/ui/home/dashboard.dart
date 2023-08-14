@@ -36,6 +36,22 @@ class DashboardScreen extends StatelessWidget {
               },
               child: Text('Go to Storage'),
             ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.map);
+              },
+              child: Text(
+                "Go to Maps"
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pushNamed(Routes.distanceMap);
+              },
+              child: Text(
+                "Go to Distance Maps"
+              ),
+            ),
           ],
         ),
       ),

@@ -4,7 +4,7 @@ import 'package:safewalk/constants/colors.dart';
 import 'package:flutter/material.dart';
 // import 'dashboard/dashboard.dart';
 import 'package:safewalk/ui/home/dashboard.dart';
-import 'package:safewalk/ui/home/profile.dart';
+import 'package:safewalk/ui/profile/profile.dart';
 import 'package:safewalk/widgets/bottom_navigation_view/bottom_bar_view.dart';
 
 class HomeScreen extends StatefulWidget {

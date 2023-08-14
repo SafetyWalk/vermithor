@@ -48,7 +48,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // app bar methods:-----------------------------------------------------------
   PreferredSizeWidget _buildAppBar() {
     return AppBar(
-      title: Text('SafeWalk Dashboard'),
+      title: Text('SafeWalk Profile'),
       actions: _buildActions(context),
     );
   }
@@ -147,22 +147,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
               _userStore.firebaseUser!.currentUser?.photoURL ?? "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
               height: 200,
               width: 200,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(Routes.map);
-              },
-              child: Text(
-                "Go to Maps"
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(Routes.distanceMap);
-              },
-              child: Text(
-                "Go to Distance Maps"
-              ),
             ),
           ],
         ),
