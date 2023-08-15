@@ -4,6 +4,8 @@ import 'package:safewalk/constants/colors.dart';
 import 'package:flutter/material.dart';
 // import 'dashboard/dashboard.dart';
 import 'package:safewalk/ui/home/dashboard.dart';
+import 'package:safewalk/ui/maps/navigator.dart';
+import 'package:safewalk/ui/phone/phone.dart';
 import 'package:safewalk/ui/profile/profile.dart';
 import 'package:safewalk/widgets/bottom_navigation_view/bottom_bar_view.dart';
 
@@ -30,7 +32,6 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
 
     animationController = AnimationController(
         duration: const Duration(milliseconds: 600), vsync: this);
-    // tabBody = TrainingScreen(animationController: animationController);
     tabBody = DashboardScreen();
     super.initState();
   }
@@ -81,14 +82,13 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
           tabIconsList: tabIconsList,
           addClick: () {},
           changeIndex: (int index) {
-            if (index == 0 || index == 2) {
+            if (index == 0) {
               animationController?.reverse().then<dynamic>((data) {
                 if (!mounted) {
                   return;
                 }
                 setState(() {
                   tabBody = DashboardScreen();
-                  // TrainingScreen(animationController: animationController);
                 });
               });
             } else if (index == 1) {
@@ -97,9 +97,16 @@ class HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   return;
                 }
                 setState(() {
-                  tabBody =
-                      DashboardScreen();
-                      // TrainingScreen(animationController: animationController);
+                  tabBody = NavigatorScreen();
+                });
+              });
+            } else if (index == 2) {
+              animationController?.reverse().then<dynamic>((data) {
+                if (!mounted) {
+                  return;
+                }
+                setState(() {
+                  tabBody = PhoneScreen();
                 });
               });
             } else if (index == 3) {

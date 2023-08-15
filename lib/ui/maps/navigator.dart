@@ -7,15 +7,7 @@ class NavigatorScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dashboard'),
-        actions: [
-          IconButton(
-            icon: Icon(Icons.logout),
-            onPressed: () {
-              // context.read<AuthCubit>().logout();
-            },
-          )
-        ],
+        title: Text('Navigator'),
       ),
       body: Center(
         child: Column(
@@ -23,7 +15,6 @@ class NavigatorScreen extends StatelessWidget {
             SizedBox(
               height: DeviceUtils.getScaledHeight(context, 0.3),
             ),
-            Text('Dashboard'),
             ElevatedButton(
               onPressed: () {
                 Navigator.of(context).pushNamed(Routes.library);
