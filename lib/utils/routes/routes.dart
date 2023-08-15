@@ -6,6 +6,7 @@ import 'package:safewalk/ui/home/home.dart';
 import 'package:safewalk/ui/auth/login/login.dart';
 import 'package:safewalk/ui/maps/distance.dart';
 import 'package:safewalk/ui/maps/maps.dart';
+import 'package:safewalk/ui/maps/navigator.dart';
 import 'package:safewalk/ui/onboard/onboarding.dart';
 import 'package:safewalk/ui/post/post.dart';
 import 'package:safewalk/ui/splash/splash.dart';
@@ -32,6 +33,7 @@ class Routes {
 
   static const String storage = '/storage';
   static const String library = '/library';
+  static const String navigator = '/navigator';
 
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
@@ -48,5 +50,6 @@ class Routes {
 
     storage: (BuildContext context) => StorageScreen(),
     library: (BuildContext context) => LibraryScreen(),
+    navigator: (BuildContext context) => NavigatorScreen(),
   };
 }
