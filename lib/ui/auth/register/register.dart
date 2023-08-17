@@ -20,6 +20,7 @@ class RegisterScreen extends StatefulWidget {
 
 class _RegisterScreenState extends State<RegisterScreen> {
   //text controllers:-----------------------------------------------------------
+  TextEditingController _usernameController = TextEditingController();
   TextEditingController _userEmailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -116,7 +117,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           children: <Widget>[
             _buildHeaderLogo(),
             SizedBox(height: 24.0),
-            _buildUserIdField(),
+            _buildUsernameField(),
             SizedBox(
               height: 8,
             ),
@@ -182,7 +183,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildUserIdField() {
+  Widget _buildUsernameField() {
     return Observer(
       builder: (context) {
         return TextField(
@@ -196,14 +197,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide.none,
             ),
-            // errorText: _store.formErrorStore.userEmail,
+            errorText: _store.formErrorStore.userEmail,
           ),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
-          // controller: _userEmailController,
+          controller: _usernameController,
           autofocus: false,
           onChanged: (value) {
-            // _store.setUserId(_userEmailController.text);
+            _store.setUsername(_userEmailController.text);
           },
           onSubmitted: (value) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -234,7 +235,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           controller: _userEmailController,
           autofocus: false,
           onChanged: (value) {
-            _store.setUserId(_userEmailController.text);
+            _store.setUserEmail(_userEmailController.text);
           },
           onSubmitted: (value) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -294,7 +295,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 return Checkbox(
                   checkColor: Colors.white,
                   activeColor: AppColors.primaryDark,
-                  fillColor: MaterialStateProperty.all<Color>(AppColors.primaryGradientDarkBottomRight),
+                  fillColor: MaterialStateProperty.all<Color>(
+                      AppColors.primaryGradientDarkBottomRight),
                   value: _isKeepLoggedIn,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   shape: CircleBorder(),
@@ -303,7 +305,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _isKeepLoggedIn = value!;
                     });
                   },
-
                 );
               },
             ),
@@ -315,7 +316,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
             ),
           ],
         ),
-
         Row(
           children: [
             Observer(
@@ -323,7 +323,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 return Checkbox(
                   checkColor: Colors.white,
                   activeColor: AppColors.primaryDark,
-                  fillColor: MaterialStateProperty.all<Color>(AppColors.primaryGradientDarkBottomRight),
+                  fillColor: MaterialStateProperty.all<Color>(
+                      AppColors.primaryGradientDarkBottomRight),
                   value: _isSubscribe,
                   materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                   shape: CircleBorder(),
@@ -332,7 +333,6 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _isSubscribe = value!;
                     });
                   },
-
                 );
               },
             ),

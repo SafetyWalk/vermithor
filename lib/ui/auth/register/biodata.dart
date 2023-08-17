@@ -186,14 +186,14 @@ class _BiodataScreenState extends State<BiodataScreen> {
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide.none,
               ),
-              errorText: _store.formErrorStore.userEmail,
+              errorText: _store.formErrorStore.firstName,
             ),
             keyboardType: TextInputType.emailAddress,
             textInputAction: TextInputAction.next,
             controller: _firstNameController,
             autofocus: false,
             onChanged: (value) {
-              _store.setUserId(_firstNameController.text);
+              _store.setFirstName(_firstNameController.text);
             },
             onSubmitted: (value) {
               FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -221,13 +221,13 @@ class _BiodataScreenState extends State<BiodataScreen> {
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide.none,
               ),
-              errorText: _store.formErrorStore.password,
+              errorText: _store.formErrorStore.lastName,
             ),
             obscureText: true,
             controller: _lastNameController,
             focusNode: _passwordFocusNode,
             onChanged: (value) {
-              _store.setPassword(_lastNameController.text);
+              _store.setLastName(_lastNameController.text);
             },
           ),
         );
@@ -252,7 +252,7 @@ class _BiodataScreenState extends State<BiodataScreen> {
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide.none,
               ),
-              errorText: _store.formErrorStore.password,
+              errorText: _store.formErrorStore.phoneNumber,
             ),
             obscureText: true,
             controller: _lastNameController,

@@ -125,7 +125,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: <Widget>[
             _buildHeaderLogo(),
             SizedBox(height: 24.0),
-            _buildUserIdField(),
+            _buildUserEmailField(),
             SizedBox(
               height: 8,
             ),
@@ -271,7 +271,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildUserIdField() {
+  Widget _buildUserEmailField() {
     return Observer(
       builder: (context) {
         return TextField(
@@ -293,7 +293,7 @@ class _LoginScreenState extends State<LoginScreen> {
           controller: _userEmailController,
           autofocus: false,
           onChanged: (value) {
-            _formStore.setUserId(_userEmailController.text);
+            _formStore.setUserEmail(_userEmailController.text);
           },
           onSubmitted: (value) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);
