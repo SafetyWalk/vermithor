@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:safewalk/stores/error/error_store.dart';
 import 'package:mobx/mobx.dart';
+import 'package:safewalk/utils/dio/dio_error_util.dart';
 
 import '../../data/repository.dart';
 import '../form/form_store.dart';
@@ -85,10 +86,6 @@ abstract class _UserStore with Store {
     });
   }
 
-  // lthis.isLoggedIn = false;
-  //   _repository.saveIsLoggedIn(false);
-  // }ogout() {
-
   @action
   Future<void> signInWithGoogle() async {
     try {
@@ -101,37 +98,74 @@ abstract class _UserStore with Store {
           accessToken: googleSignInAuthentication.accessToken,
           idToken: googleSignInAuthentication.idToken,
         );
-        final UserCredential authResult =
-            await _auth.signInWithCredential(credential);
-        // final User user = authResult.user!;
 
-        _repository.saveIsLoggedIn(true);
-        this.isLoggedIn = true;
-        this.success = true;
-        this.firebaseUser = _auth;
+        await _auth.signInWithCredential(credential);
+
+        // final User user = authResult.user!;
 
         User user = await FirebaseAuth.instance.currentUser!;
 
         // check if the user is a first-time user
         DateTime? creationTime = user.metadata.creationTime;
         DateTime? lastSignInTime = user.metadata.lastSignInTime;
-        if (lastSignInTime!.difference(creationTime!) <
-            Duration(minutes: 1)) {
-          // TODO - save user to backend
+        if (lastSignInTime!.difference(creationTime!) < Duration(days: 30)) {
           print('first time user');
+          registerGoogle(
+            firebaseUser!.currentUser!.uid,
+            firebaseUser!.currentUser!.email!,
+            firebaseUser!.currentUser!.displayName!,
+            'not set',
+            firebaseUser!.currentUser!.photoURL!,
+          );
         } else {
-          // TODO - get user from backend
           print('returning user');
           print(user.metadata.creationTime);
           print(user.metadata.lastSignInTime);
         }
       }
+
+      _repository.saveIsLoggedIn(true);
+      this.isLoggedIn = true;
+      this.success = true;
+      this.firebaseUser = _auth;
     } catch (e) {
       print('Error signing in with Google: $e');
       this.isLoggedIn = false;
       this.success = false;
       throw e;
     }
+  }
+
+  @action
+  Future registerGoogle(
+    String google_uid,
+    String email,
+    String name,
+    String mobile_number,
+    String photo_url,
+  ) async {
+    final future = _repository.registerGoogle(
+      google_uid,
+      email,
+      name,
+      mobile_number,
+      photo_url,
+    );
+    // loginFuture = ObservableFuture();
+
+    future.then((value) async {
+      print(value);
+    }).catchError((e) {
+      print(e);
+      this.isLoggedIn = false;
+      this.success = false;
+      errorStore.errorMessage = DioErrorUtil.handleError(e);
+    });
+  }
+
+  @action
+  Future<void> signInWithFacebook() async {
+    // TODO - implement facebook login
   }
 
   @action

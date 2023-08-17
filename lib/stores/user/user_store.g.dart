@@ -79,6 +79,25 @@ mixin _$UserStore on _UserStore, Store {
     return _$signInWithGoogleAsyncAction.run(() => super.signInWithGoogle());
   }
 
+  late final _$registerGoogleAsyncAction =
+      AsyncAction('_UserStore.registerGoogle', context: context);
+
+  @override
+  Future<dynamic> registerGoogle(String google_uid, String email, String name,
+      String mobile_number, String photo_url) {
+    return _$registerGoogleAsyncAction.run(() => super
+        .registerGoogle(google_uid, email, name, mobile_number, photo_url));
+  }
+
+  late final _$signInWithFacebookAsyncAction =
+      AsyncAction('_UserStore.signInWithFacebook', context: context);
+
+  @override
+  Future<void> signInWithFacebook() {
+    return _$signInWithFacebookAsyncAction
+        .run(() => super.signInWithFacebook());
+  }
+
   late final _$logoutAsyncAction =
       AsyncAction('_UserStore.logout', context: context);
 
