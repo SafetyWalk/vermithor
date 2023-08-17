@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:safewalk/data/local/datasources/post/post_datasource.dart';
+import 'package:safewalk/data/network/apis/auth/register/register_api.dart';
 import 'package:safewalk/data/sharedpref/shared_preference_helper.dart';
 import 'package:safewalk/models/post/post.dart';
 import 'package:safewalk/models/post/post_list.dart';
@@ -15,12 +16,13 @@ class Repository {
 
   // api objects
   final PostApi _postApi;
+  final RegisterApi _registerApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
-  Repository(this._postApi, this._sharedPrefsHelper, this._postDataSource);
+  Repository(this._postApi, this._registerApi, this._sharedPrefsHelper, this._postDataSource);
 
   // Post: ---------------------------------------------------------------------
   Future<PostList> getPosts() async {
@@ -33,6 +35,24 @@ class Repository {
       });
 
       return postsList;
+    }).catchError((error) => throw error);
+  }
+
+  Future<dynamic> registerGoogle(
+    String google_uid,
+    String email,
+    String name,
+    String mobile_number,
+    String photo_url,
+  ) async {
+    return await _registerApi.registerGoogle(
+      google_uid,
+      email,
+      name,
+      mobile_number,
+      photo_url
+    ).then((res) {
+      return res;
     }).catchError((error) => throw error);
   }
 
