@@ -10,16 +10,13 @@ class PostApi {
   // dio instance
   final DioClient _dioClient;
 
-  // rest-client instance
-  final RestClient _restClient;
-
   // injecting dio instance
-  PostApi(this._dioClient, this._restClient);
+  PostApi(this._dioClient);
 
   /// Returns list of post in response
-  Future<dynamic> loginReg(dynamic ) async {
+  Future<dynamic> loginManual(dynamic ) async {
     try {
-      final res = await _dioClient.post(Endpoints.loginRegular, data: {
+      final res = await _dioClient.post(Endpoints.loginManual, data: {
           "username": "",
           "email": "",
           "password": "",
@@ -33,14 +30,4 @@ class PostApi {
       throw NetworkException(message: e.toString());
     }
   }
-
-/// sample api call with default rest client
- Future<PostList> getPostsRest() async {
-
-   return _restClient
-       .get(Endpoints.getPosts)
-       .then((dynamic res) => PostList.fromJson(res))
-       .catchError((error) => throw NetworkException(message: error));
- }
-
 }
