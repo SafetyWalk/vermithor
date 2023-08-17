@@ -21,7 +21,7 @@ class RegisterApi {
     String photo_url,
   ) async {
     try {
-      final res = await _dioClient.post(Endpoints.loginManual, data: {
+      final res = await _dioClient.post(Endpoints.registerManual, data: {
         "username": username,
         "email": email,
         "password": password,
@@ -39,16 +39,14 @@ class RegisterApi {
   Future<dynamic> registerGoogle(
     String google_uid,
     String email,
-    String password,
     String name,
     String mobile_number,
     String photo_url,
   ) async {
     try {
-      final res = await _dioClient.post(Endpoints.loginGoogle, data: {
+      final res = await _dioClient.post(Endpoints.registerGoogle, data: {
         "google_uid": google_uid,
         "email": email,
-        "password": password,
         "name": name,
         "mobile_number": mobile_number,
         "photo_url": photo_url
