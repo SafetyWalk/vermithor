@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:another_flushbar/flushbar_helper.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:safewalk/constants/colors.dart';
 import 'package:safewalk/data/sharedpref/constants/preferences.dart';
 import 'package:safewalk/utils/routes/routes.dart';
@@ -22,7 +26,6 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
   //text controllers:-----------------------------------------------------------
   TextEditingController _firstNameController = TextEditingController();
   TextEditingController _lastNameController = TextEditingController();
-  TextEditingController _phoneNumberController = TextEditingController();
 
   //stores:---------------------------------------------------------------------
   late ThemeStore _themeStore;
@@ -32,6 +35,15 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
 
   //stores:---------------------------------------------------------------------
   final _store = FormStore();
+
+  // firebase storage:----------------------------------------------------------
+  final Reference _storage = FirebaseStorage.instance.ref();
+  final _imagePicker = ImagePicker();
+
+  File? _image;
+  bool _isUploading = false;
+  bool _isDone = false;
+  String _downloadURL = '';
 
   @override
   void initState() {
@@ -91,13 +103,73 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
           children: <Widget>[
             _buildHeader(),
             SizedBox(height: 24.0),
-            _buildGalleryUpload(),
-            SizedBox(height: 24.0),
-            _buildCameraUpload(),
+            if (_image != null) Image.file(_image!),
+            if (_isUploading) LinearProgressIndicator(),
+            if (_image != null) SizedBox(height: 24.0),
+            if (_image != null && !_isDone)
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  ElevatedButton(
+                    onPressed: () async {
+                      final _imageName = _image!.path.split('/').last;
+                      setState(() {
+                        _isUploading = true;
+                      });
+
+                      // create a new reference in your Firebase Cloud Storage
+                      final newImageRef =
+                          _storage.child('images/profile/$_imageName');
+
+                      try {
+                        // put a file at this references location
+                        print("before testset");
+                        await newImageRef.putFile(_image!);
+
+                        // Get the download URL
+                        final downloadURL = await newImageRef.getDownloadURL();
+
+                        setState(() {
+                          _isUploading = false;
+                          _downloadURL = downloadURL;
+                          _isDone = true;
+                        });
+                        print("testsetest");
+                        print(_downloadURL);
+                      } on FirebaseException catch (error) {
+                        setState(() {
+                          _isUploading = false;
+                        });
+                        // ignore: avoid_print
+                        print(error);
+                      }
+                    },
+                    child: const Text('Confirm Image'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () async {
+                      setState(() {
+                        _image = null;
+                      });
+                    },
+                    child: const Text('Remove Image'),
+                  ),
+                ],
+              ),
+            if (_image == null)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildGalleryUpload(),
+                  SizedBox(height: 24.0),
+                  _buildCameraUpload(),
+                ],
+              ),
             SizedBox(
-              height: DeviceUtils.getScaledHeight(context, 0.2),
+              height: DeviceUtils.getScaledHeight(context, 0.23),
             ),
-            _buildNextButton(),
+            if (_isDone)
+              _buildNextButton()
           ],
         ),
       ),
@@ -105,42 +177,60 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
   }
 
   Widget _buildGalleryUpload() {
-    return Container(
-      width: DeviceUtils.getScaledWidth(context, 0.5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.0),
-        color: AppColors.containerDark,
-      ),
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32.0),
-            child: Image.asset(
-              "assets/icons/ic_gallery.png",
+    return GestureDetector(
+      child: Container(
+        width: DeviceUtils.getScaledWidth(context, 0.5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          color: AppColors.containerDark,
+        ),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32.0),
+              child: Image.asset(
+                "assets/icons/ic_gallery.png",
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
+      onTap: _image == null
+          ? () async {
+              final XFile? image =
+                  await _imagePicker.pickImage(source: ImageSource.gallery);
+
+              setState(() {
+                _image = File(image!.path);
+              });
+            }
+          : null,
     );
   }
 
   Widget _buildCameraUpload() {
-    return Container(
-      width: DeviceUtils.getScaledWidth(context, 0.5),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20.0),
-        color: AppColors.containerDark,
-      ),
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 32.0),
-            child: Image.asset(
-              "assets/icons/ic_camera.png",
+    return GestureDetector(
+      child: Container(
+        width: DeviceUtils.getScaledWidth(context, 0.5),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(20.0),
+          color: AppColors.containerDark,
+        ),
+        child: Column(
+          children: <Widget>[
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 32.0),
+              child: Image.asset(
+                "assets/icons/ic_camera.png",
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
+      onTap: () {
+        print("jancok");
+        // TODO: implement camera upload
+      },
     );
   }
 
