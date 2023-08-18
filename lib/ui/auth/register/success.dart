@@ -95,7 +95,17 @@ class _SuccessScreenState extends State<SuccessScreen> {
               "assets/icons/ic_success.png",
               height: 200,
             ),
-            SizedBox(height: 32),
+            Text(
+              'Congrats!',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 32.0,
+                fontWeight: FontWeight.bold,
+                color:
+                    AppColors.primaryDark,
+              ),
+            ),
+            SizedBox(height: 16),
             Text(
               'Your Profile Is Ready To Use',
               textAlign: TextAlign.center,
