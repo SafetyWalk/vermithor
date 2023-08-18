@@ -85,7 +85,7 @@ abstract class _FormStore with Store {
   // actions:-------------------------------------------------------------------
   @action
   void setUsername(String value) {
-    userEmail = value;
+    username = value;
   }
 
   @action
