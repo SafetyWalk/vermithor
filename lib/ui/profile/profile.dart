@@ -143,6 +143,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 fontSize: 20,
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                "Your Google UID is:\n${_userStore.firebaseUser!.currentUser?.uid ?? "Not Provided"}",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
+            ),
             Image.network(
               _userStore.firebaseUser!.currentUser?.photoURL ?? "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
               height: 200,
