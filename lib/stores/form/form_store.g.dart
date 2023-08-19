@@ -142,6 +142,22 @@ mixin _$FormStore on _FormStore, Store {
     });
   }
 
+  late final _$photoUrlAtom =
+      Atom(name: '_FormStore.photoUrl', context: context);
+
+  @override
+  String get photoUrl {
+    _$photoUrlAtom.reportRead();
+    return super.photoUrl;
+  }
+
+  @override
+  set photoUrl(String value) {
+    _$photoUrlAtom.reportWrite(value, super.photoUrl, () {
+      super.photoUrl = value;
+    });
+  }
+
   late final _$successAtom = Atom(name: '_FormStore.success', context: context);
 
   @override
@@ -285,6 +301,17 @@ mixin _$FormStore on _FormStore, Store {
   }
 
   @override
+  void setPhotoUrl(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.setPhotoUrl');
+    try {
+      return super.setPhotoUrl(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   void validateUsername(String value) {
     final _$actionInfo = _$_FormStoreActionController.startAction(
         name: '_FormStore.validateUsername');
@@ -362,6 +389,17 @@ mixin _$FormStore on _FormStore, Store {
   }
 
   @override
+  void validatePhotoUrl(String value) {
+    final _$actionInfo = _$_FormStoreActionController.startAction(
+        name: '_FormStore.validatePhotoUrl');
+    try {
+      return super.validatePhotoUrl(value);
+    } finally {
+      _$_FormStoreActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 username: ${username},
@@ -371,6 +409,7 @@ confirmPassword: ${confirmPassword},
 firstName: ${firstName},
 lastName: ${lastName},
 phoneNumber: ${phoneNumber},
+photoUrl: ${photoUrl},
 success: ${success},
 loading: ${loading},
 canLogin: ${canLogin},
@@ -515,6 +554,22 @@ mixin _$FormErrorStore on _FormErrorStore, Store {
     });
   }
 
+  late final _$photoUrlAtom =
+      Atom(name: '_FormErrorStore.photoUrl', context: context);
+
+  @override
+  String? get photoUrl {
+    _$photoUrlAtom.reportRead();
+    return super.photoUrl;
+  }
+
+  @override
+  set photoUrl(String? value) {
+    _$photoUrlAtom.reportWrite(value, super.photoUrl, () {
+      super.photoUrl = value;
+    });
+  }
+
   @override
   String toString() {
     return '''
@@ -525,6 +580,7 @@ confirmPassword: ${confirmPassword},
 firstName: ${firstName},
 lastName: ${lastName},
 phoneNumber: ${phoneNumber},
+photoUrl: ${photoUrl},
 hasErrorsInLogin: ${hasErrorsInLogin},
 hasErrorsInRegister: ${hasErrorsInRegister},
 hasErrorInForgotPassword: ${hasErrorInForgotPassword}

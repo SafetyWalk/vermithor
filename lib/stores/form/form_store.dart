@@ -28,7 +28,8 @@ abstract class _FormStore with Store {
       reaction((_) => confirmPassword, validateConfirmPassword),
       reaction((_) => firstName, validateFirstName),
       reaction((_) => lastName, validateLastName),
-      reaction((_) => phoneNumber, validatePhoneNumber)
+      reaction((_) => phoneNumber, validatePhoneNumber),
+      reaction((_) => photoUrl, validatePhotoUrl)
     ];
   }
 
@@ -55,6 +56,9 @@ abstract class _FormStore with Store {
   String phoneNumber = '';
 
   @observable
+  String photoUrl = '';
+
+  @observable
   bool success = false;
 
   @observable
@@ -75,6 +79,7 @@ abstract class _FormStore with Store {
       firstName.isNotEmpty &&
       lastName.isNotEmpty &&
       phoneNumber.isNotEmpty &&
+      photoUrl.isNotEmpty &&
       password.isNotEmpty &&
       confirmPassword.isNotEmpty;
 
@@ -116,6 +121,11 @@ abstract class _FormStore with Store {
   @action
   void setPhoneNumber(String value) {
     phoneNumber = value;
+  }
+
+  @action
+  void setPhotoUrl(String value) {
+    photoUrl = value;
   }
 
   @action
@@ -190,6 +200,15 @@ abstract class _FormStore with Store {
   }
 
   @action
+  void validatePhotoUrl(String value) {
+    if (value.isEmpty) {
+      formErrorStore.photoUrl = "Photo url can't be empty";
+    } else {
+      formErrorStore.photoUrl = null;
+    }
+  }
+
+  @action
   Future register() async {
     loading = true;
   }
@@ -235,6 +254,7 @@ abstract class _FormStore with Store {
     validateFirstName(firstName);
     validateLastName(lastName);
     validatePhoneNumber(phoneNumber);
+    validatePhotoUrl(photoUrl);
   }
 }
 
@@ -262,6 +282,9 @@ abstract class _FormErrorStore with Store {
   @observable
   String? phoneNumber;
 
+  @observable
+  String? photoUrl;
+
   @computed
   bool get hasErrorsInLogin => userEmail != null || password != null;
 
@@ -271,6 +294,8 @@ abstract class _FormErrorStore with Store {
       userEmail != null ||
       firstName != null ||
       lastName != null ||
+      phoneNumber != null ||
+      photoUrl != null ||
       password != null ||
       confirmPassword != null;
 
