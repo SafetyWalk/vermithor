@@ -2,6 +2,7 @@ import 'package:safewalk/constants/app_theme.dart';
 import 'package:safewalk/constants/strings.dart';
 import 'package:safewalk/data/repository.dart';
 import 'package:safewalk/di/components/service_locator.dart';
+import 'package:safewalk/stores/form/form_store.dart';
 import 'package:safewalk/stores/language/language_store.dart';
 import 'package:safewalk/stores/post/post_store.dart';
 import 'package:safewalk/stores/theme/theme_store.dart';
@@ -32,6 +33,7 @@ class MyApp extends StatelessWidget {
         Provider<PostStore>(create: (_) => _postStore),
         Provider<LanguageStore>(create: (_) => _languageStore),
         Provider<UserStore>(create: (_) => _userStore),
+        Provider<FormStore>(create: (_) => FormStore()),
       ],
       child: Observer(
         name: 'global-observer',

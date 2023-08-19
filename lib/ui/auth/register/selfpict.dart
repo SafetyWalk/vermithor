@@ -29,12 +29,10 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
 
   //stores:---------------------------------------------------------------------
   late ThemeStore _themeStore;
+  late FormStore _formStore;
 
   //focus node:-----------------------------------------------------------------
   late FocusNode _passwordFocusNode;
-
-  //stores:---------------------------------------------------------------------
-  final _store = FormStore();
 
   // firebase storage:----------------------------------------------------------
   final Reference _storage = FirebaseStorage.instance.ref();
@@ -55,6 +53,7 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _themeStore = Provider.of<ThemeStore>(context);
+    _formStore = Provider.of<FormStore>(context);
   }
 
   @override
@@ -74,15 +73,15 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
           _buildContent(),
           Observer(
             builder: (context) {
-              return _store.success
+              return _formStore.success
                   ? navigate(context)
-                  : _showErrorMessage(_store.errorStore.errorMessage);
+                  : _showErrorMessage(_formStore.errorStore.errorMessage);
             },
           ),
           Observer(
             builder: (context) {
               return Visibility(
-                visible: _store.loading,
+                visible: _formStore.loading,
                 child: CustomProgressIndicatorWidget(),
               );
             },
@@ -123,7 +122,6 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
 
                       try {
                         // put a file at this references location
-                        print("before testset");
                         await newImageRef.putFile(_image!);
 
                         // Get the download URL
@@ -133,7 +131,10 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
                           _isUploading = false;
                           _downloadURL = downloadURL;
                           _isDone = true;
+                          _formStore.setPhotoUrl(_downloadURL);
                         });
+
+                        // TODO: Delete this shit
                         print("testsetest");
                         print(_downloadURL);
                       } on FirebaseException catch (error) {
@@ -228,7 +229,7 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
         ),
       ),
       onTap: () {
-        print("jancok");
+        print("belom implement hehe :D");
         // TODO: implement camera upload
       },
     );

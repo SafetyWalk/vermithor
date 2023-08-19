@@ -26,12 +26,10 @@ class _BiodataScreenState extends State<BiodataScreen> {
 
   //stores:---------------------------------------------------------------------
   late ThemeStore _themeStore;
+  late FormStore _formStore;
 
   //focus node:-----------------------------------------------------------------
   late FocusNode _passwordFocusNode;
-
-  //stores:---------------------------------------------------------------------
-  final _store = FormStore();
 
   @override
   void initState() {
@@ -43,6 +41,7 @@ class _BiodataScreenState extends State<BiodataScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _themeStore = Provider.of<ThemeStore>(context);
+    _formStore = Provider.of<FormStore>(context);
   }
 
   @override
@@ -62,15 +61,15 @@ class _BiodataScreenState extends State<BiodataScreen> {
           _buildContent(),
           Observer(
             builder: (context) {
-              return _store.success
+              return _formStore.success
                   ? navigate(context)
-                  : _showErrorMessage(_store.errorStore.errorMessage);
+                  : _showErrorMessage(_formStore.errorStore.errorMessage);
             },
           ),
           Observer(
             builder: (context) {
               return Visibility(
-                visible: _store.loading,
+                visible: _formStore.loading,
                 child: CustomProgressIndicatorWidget(),
               );
             },
@@ -107,7 +106,13 @@ class _BiodataScreenState extends State<BiodataScreen> {
   Widget _buildNextButton() {
     return InkWell(
       onTap: () {
-        Navigator.of(context).pushNamed(Routes.selfpict);
+        if (_formStore.firstName.isNotEmpty &&
+            _formStore.lastName.isNotEmpty &&
+            _formStore.phoneNumber.isNotEmpty) {
+          Navigator.of(context).pushNamed(Routes.selfpict);
+        } else {
+          _showErrorMessage('Please fill in all fields');
+        }
       },
       child: Container(
         height: 58,
@@ -186,14 +191,14 @@ class _BiodataScreenState extends State<BiodataScreen> {
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide.none,
               ),
-              errorText: _store.formErrorStore.firstName,
+              errorText: _formStore.formErrorStore.firstName,
             ),
-            keyboardType: TextInputType.emailAddress,
+            keyboardType: TextInputType.name,
             textInputAction: TextInputAction.next,
             controller: _firstNameController,
             autofocus: false,
             onChanged: (value) {
-              _store.setFirstName(_firstNameController.text);
+              _formStore.setFirstName(_firstNameController.text);
             },
             onSubmitted: (value) {
               FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -211,7 +216,7 @@ class _BiodataScreenState extends State<BiodataScreen> {
           padding: const EdgeInsets.symmetric(vertical: 8.0),
           child: TextField(
             decoration: InputDecoration(
-              hintText: 'Last Name',
+              hintText: "Last Name",
               prefixIcon: Icon(Icons.people,
                   color:
                       _themeStore.darkMode ? Colors.white70 : Colors.black54),
@@ -221,13 +226,17 @@ class _BiodataScreenState extends State<BiodataScreen> {
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide.none,
               ),
-              errorText: _store.formErrorStore.lastName,
+              errorText: _formStore.formErrorStore.lastName,
             ),
-            obscureText: true,
+            keyboardType: TextInputType.name,
+            textInputAction: TextInputAction.next,
             controller: _lastNameController,
-            focusNode: _passwordFocusNode,
+            autofocus: false,
             onChanged: (value) {
-              _store.setLastName(_lastNameController.text);
+              _formStore.setLastName(_lastNameController.text);
+            },
+            onSubmitted: (value) {
+              FocusScope.of(context).requestFocus(_passwordFocusNode);
             },
           ),
         );
@@ -252,13 +261,17 @@ class _BiodataScreenState extends State<BiodataScreen> {
                 borderRadius: BorderRadius.circular(15),
                 borderSide: BorderSide.none,
               ),
-              errorText: _store.formErrorStore.phoneNumber,
+              errorText: _formStore.formErrorStore.phoneNumber,
             ),
-            obscureText: true,
-            controller: _lastNameController,
-            focusNode: _passwordFocusNode,
+            keyboardType: TextInputType.phone,
+            textInputAction: TextInputAction.next,
+            controller: _phoneNumberController,
+            autofocus: false,
             onChanged: (value) {
-              _store.setPassword(_phoneNumberController.text);
+              _formStore.setPhoneNumber(_phoneNumberController.text);
+            },
+            onSubmitted: (value) {
+              FocusScope.of(context).requestFocus(_passwordFocusNode);
             },
           ),
         );
@@ -302,6 +315,7 @@ class _BiodataScreenState extends State<BiodataScreen> {
     // Clean up the controller when the Widget is removed from the Widget tree
     _firstNameController.dispose();
     _lastNameController.dispose();
+    _phoneNumberController.dispose();
     _passwordFocusNode.dispose();
     super.dispose();
   }

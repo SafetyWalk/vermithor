@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar_helper.dart';
 import 'package:safewalk/constants/assets.dart';
 import 'package:safewalk/constants/colors.dart';
 import 'package:safewalk/data/sharedpref/constants/preferences.dart';
+import 'package:safewalk/utils/device/device_utils.dart';
 import 'package:safewalk/utils/routes/routes.dart';
 import 'package:safewalk/stores/form/form_store.dart';
 import 'package:safewalk/stores/theme/theme_store.dart';
@@ -26,12 +27,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
   //stores:---------------------------------------------------------------------
   late ThemeStore _themeStore;
+  late FormStore _formStore;
 
   //focus node:-----------------------------------------------------------------
   late FocusNode _passwordFocusNode;
-
-  //stores:---------------------------------------------------------------------
-  final _store = FormStore();
 
   bool _isKeepLoggedIn = false;
   bool _isSubscribe = false;
@@ -47,6 +46,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     _themeStore = Provider.of<ThemeStore>(context);
+    _formStore = Provider.of<FormStore>(context);
   }
 
   @override
@@ -79,15 +79,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
               : Center(child: _buildRightSide()),
           Observer(
             builder: (context) {
-              return _store.success
+              return _formStore.success
                   ? navigate(context)
-                  : _showErrorMessage(_store.errorStore.errorMessage);
+                  : _showErrorMessage(_formStore.errorStore.errorMessage);
             },
           ),
           Observer(
             builder: (context) {
               return Visibility(
-                visible: _store.loading,
+                visible: _formStore.loading,
                 child: CustomProgressIndicatorWidget(),
               );
             },
@@ -197,14 +197,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide.none,
             ),
-            errorText: _store.formErrorStore.userEmail,
+            errorText: _formStore.formErrorStore.username,
           ),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           controller: _usernameController,
           autofocus: false,
           onChanged: (value) {
-            _store.setUsername(_userEmailController.text);
+            _formStore.setUsername(_usernameController.text);
           },
           onSubmitted: (value) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -228,14 +228,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide.none,
             ),
-            errorText: _store.formErrorStore.userEmail,
+            errorText: _formStore.formErrorStore.userEmail,
           ),
           keyboardType: TextInputType.emailAddress,
           textInputAction: TextInputAction.next,
           controller: _userEmailController,
           autofocus: false,
           onChanged: (value) {
-            _store.setUserEmail(_userEmailController.text);
+            _formStore.setUserEmail(_userEmailController.text);
           },
           onSubmitted: (value) {
             FocusScope.of(context).requestFocus(_passwordFocusNode);
@@ -260,7 +260,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               borderRadius: BorderRadius.circular(15),
               borderSide: BorderSide.none,
             ),
-            errorText: _store.formErrorStore.password,
+            errorText: _formStore.formErrorStore.password,
             suffixIcon: IconButton(
               icon: Icon(
                 // Show password
@@ -278,7 +278,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
           controller: _passwordController,
           focusNode: _passwordFocusNode,
           onChanged: (value) {
-            _store.setPassword(_passwordController.text);
+            _formStore.setPassword(_passwordController.text);
           },
         );
       },
@@ -351,13 +351,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Widget _buildSignInButton() {
     return InkWell(
       onTap: () async {
-        Navigator.of(context).pushNamed(Routes.biodata);
-        // if (_store.canLogin) {
-        //   DeviceUtils.hideKeyboard(context);
-        //   _store.login();
-        // } else {
-        //   _showErrorMessage('Please fill in all fields');
-        // }
+        if (_formStore.username.isNotEmpty &&
+            _formStore.userEmail.isNotEmpty &&
+            _formStore.password.isNotEmpty) {
+          DeviceUtils.hideKeyboard(context);
+          Navigator.of(context).pushNamed(Routes.biodata);
+        } else {
+          _showErrorMessage('Please fill in all fields');
+        }
       },
       child: Container(
         height: 58,
