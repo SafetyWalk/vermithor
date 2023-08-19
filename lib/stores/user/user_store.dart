@@ -27,6 +27,8 @@ abstract class _UserStore with Store {
 
   // bool to check if current user is logged in
   bool isLoggedIn = false;
+  bool isGoogleLoggedIn = false;
+  bool isManualLoggedIn = false;
 
   // constructor:---------------------------------------------------------------
   _UserStore(Repository repository) : this._repository = repository {
@@ -74,6 +76,7 @@ abstract class _UserStore with Store {
       if (value) {
         _repository.saveIsLoggedIn(true);
         this.isLoggedIn = true;
+        this.isManualLoggedIn = true;
         this.success = true;
       } else {
         print('failed to login');
@@ -126,6 +129,7 @@ abstract class _UserStore with Store {
 
       _repository.saveIsLoggedIn(true);
       this.isLoggedIn = true;
+      this.isGoogleLoggedIn = true;
       this.success = true;
       this.firebaseUser = _auth;
     } catch (e) {
@@ -134,6 +138,36 @@ abstract class _UserStore with Store {
       this.success = false;
       throw e;
     }
+  }
+
+  @action
+  Future registerManual(
+      String username,
+      String email,
+      String password,
+      String first_name,
+      String last_name,
+      String mobile_number,
+      String photo_url) async {
+    final future = _repository.registerManual(
+      username,
+      email,
+      password,
+      first_name,
+      last_name,
+      mobile_number,
+      photo_url,
+    );
+
+    future.then((value) async {
+      print(value);
+    }).catchError((e) {
+      print(e);
+      this.isLoggedIn = false;
+      this.isManualLoggedIn = false;
+      this.success = false;
+      errorStore.errorMessage = DioErrorUtil.handleError(e);
+    });
   }
 
   @action
@@ -158,6 +192,7 @@ abstract class _UserStore with Store {
     }).catchError((e) {
       print(e);
       this.isLoggedIn = false;
+      this.isGoogleLoggedIn = false;
       this.success = false;
       errorStore.errorMessage = DioErrorUtil.handleError(e);
     });
@@ -173,6 +208,8 @@ abstract class _UserStore with Store {
     await _auth.signOut();
     await _googleSignIn.signOut();
     this.isLoggedIn = false;
+    this.isGoogleLoggedIn = false;
+    this.isManualLoggedIn = false;
     _repository.saveIsLoggedIn(false);
     this.firebaseUser = null;
   }

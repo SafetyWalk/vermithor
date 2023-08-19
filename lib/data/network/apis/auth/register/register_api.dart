@@ -14,7 +14,7 @@ class RegisterApi {
   Future<dynamic> registerManual(
     String username,
     String email,
-    String, password,
+    String password,
     String first_name,
     String last_name,
     String mobile_number,

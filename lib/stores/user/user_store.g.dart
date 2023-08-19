@@ -79,6 +79,22 @@ mixin _$UserStore on _UserStore, Store {
     return _$signInWithGoogleAsyncAction.run(() => super.signInWithGoogle());
   }
 
+  late final _$registerManualAsyncAction =
+      AsyncAction('_UserStore.registerManual', context: context);
+
+  @override
+  Future<dynamic> registerManual(
+      String username,
+      String email,
+      String password,
+      String first_name,
+      String last_name,
+      String mobile_number,
+      String photo_url) {
+    return _$registerManualAsyncAction.run(() => super.registerManual(username,
+        email, password, first_name, last_name, mobile_number, photo_url));
+  }
+
   late final _$registerGoogleAsyncAction =
       AsyncAction('_UserStore.registerGoogle', context: context);
 

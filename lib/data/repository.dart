@@ -22,7 +22,8 @@ class Repository {
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
-  Repository(this._postApi, this._registerApi, this._sharedPrefsHelper, this._postDataSource);
+  Repository(this._postApi, this._registerApi, this._sharedPrefsHelper,
+      this._postDataSource);
 
   // Post: ---------------------------------------------------------------------
   Future<PostList> getPosts() async {
@@ -38,6 +39,29 @@ class Repository {
     }).catchError((error) => throw error);
   }
 
+  Future<dynamic> registerManual (
+    String username,
+    String email,
+    String password,
+    String first_name,
+    String last_name,
+    String mobile_number,
+    String photo_url,
+  ) async {
+    return await _registerApi
+      .registerManual(
+        username,
+        email,
+        password,
+        first_name,
+        last_name,
+        mobile_number,
+        photo_url
+      ).then((res) {
+        return res;
+      }).catchError((error) => throw error);
+  }
+
   Future<dynamic> registerGoogle(
     String google_uid,
     String email,
@@ -45,13 +69,9 @@ class Repository {
     String mobile_number,
     String photo_url,
   ) async {
-    return await _registerApi.registerGoogle(
-      google_uid,
-      email,
-      name,
-      mobile_number,
-      photo_url
-    ).then((res) {
+    return await _registerApi
+        .registerGoogle(google_uid, email, name, mobile_number, photo_url)
+        .then((res) {
       return res;
     }).catchError((error) => throw error);
   }
@@ -86,10 +106,9 @@ class Repository {
       .then((id) => id)
       .catchError((error) => throw error);
 
-
   // Login:---------------------------------------------------------------------
   Future<bool> login(String email, String password) async {
-    return await Future.delayed(Duration(seconds: 2), ()=> true);
+    return await Future.delayed(Duration(seconds: 2), () => true);
   }
 
   Future<void> saveIsLoggedIn(bool value) =>
