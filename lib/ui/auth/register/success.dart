@@ -129,8 +129,7 @@ class _SuccessScreenState extends State<SuccessScreen> {
   Widget _buildNextButton() {
     return InkWell(
       onTap: () {
-        print('end of the road');
-        // Navigator.of(context).pushNamed(Routes.success);
+        Navigator.of(context).pushNamed(Routes.login);
       },
       child: Container(
         height: 58,
