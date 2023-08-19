@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:safewalk/data/local/datasources/post/post_datasource.dart';
+import 'package:safewalk/data/network/apis/auth/login/login_api.dart';
 import 'package:safewalk/data/network/apis/auth/register/register_api.dart';
 import 'package:safewalk/data/sharedpref/shared_preference_helper.dart';
 import 'package:safewalk/models/post/post.dart';
@@ -16,13 +17,14 @@ class Repository {
 
   // api objects
   final PostApi _postApi;
+  final LoginApi _loginApi;
   final RegisterApi _registerApi;
 
   // shared pref object
   final SharedPreferenceHelper _sharedPrefsHelper;
 
   // constructor
-  Repository(this._postApi, this._registerApi, this._sharedPrefsHelper,
+  Repository(this._postApi, this._loginApi, this._registerApi, this._sharedPrefsHelper,
       this._postDataSource);
 
   // Post: ---------------------------------------------------------------------
@@ -108,7 +110,9 @@ class Repository {
 
   // Login:---------------------------------------------------------------------
   Future<bool> login(String email, String password) async {
-    return await Future.delayed(Duration(seconds: 2), () => true);
+    return await _loginApi.loginManual(email, password).then((res) {
+      return res;
+    }).catchError((error) => throw error);
   }
 
   Future<void> saveIsLoggedIn(bool value) =>

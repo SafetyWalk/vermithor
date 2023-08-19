@@ -1,5 +1,6 @@
 
 import 'package:safewalk/data/local/datasources/post/post_datasource.dart';
+import 'package:safewalk/data/network/apis/auth/login/login_api.dart';
 import 'package:safewalk/data/network/apis/auth/register/register_api.dart';
 import 'package:safewalk/data/network/apis/posts/post_api.dart';
 import 'package:safewalk/data/network/dio_client.dart';
@@ -38,6 +39,7 @@ Future<void> setupLocator() async {
 
   // api's:---------------------------------------------------------------------
   getIt.registerSingleton(PostApi(getIt<DioClient>(), getIt<RestClient>()));
+  getIt.registerSingleton(LoginApi(getIt<DioClient>()));
   getIt.registerSingleton(RegisterApi(getIt<DioClient>()));
 
   // data sources
@@ -46,6 +48,7 @@ Future<void> setupLocator() async {
   // repository:----------------------------------------------------------------
   getIt.registerSingleton(Repository(
     getIt<PostApi>(),
+    getIt<LoginApi>(),
     getIt<RegisterApi>(),
     getIt<SharedPreferenceHelper>(),
     getIt<PostDataSource>(),

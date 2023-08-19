@@ -139,11 +139,11 @@ class _LoginScreenState extends State<LoginScreen> {
                   fontSize: 16,
                   fontWeight: FontWeight.bold,
                 ),
-                ),
               ),
-              SizedBox(
-                height: 16,
-              ),
+            ),
+            SizedBox(
+              height: 16,
+            ),
             _buildSignInOtherMethod(),
             _buildForgotPasswordButton(),
             _buildSignInButton()
@@ -178,7 +178,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Image.asset(
                   'assets/icons/ic_facebook.png',
                   height: 30,
-                  ),
+                ),
                 SizedBox(width: 8),
                 Text(
                   'Facebook',
@@ -214,7 +214,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Image.asset(
                   'assets/icons/ic_google.png',
                   height: 30,
-                  ),
+                ),
                 SizedBox(width: 8),
                 Text(
                   'Google',
@@ -347,29 +347,29 @@ class _LoginScreenState extends State<LoginScreen> {
     return Align(
       alignment: FractionalOffset.center,
       child: TextButton(
-        onPressed: () {},
-        style: TextButton.styleFrom(
-          padding: EdgeInsets.all(0.0),
-          minimumSize: Size(0, 0),
-        ),
-        child: ShaderMask(
-                    shaderCallback: (Rect bounds) {
-                      return LinearGradient(
-                        colors: [Colors.deepOrange, Colors.greenAccent], 
-                        begin: Alignment.centerLeft, 
-                        end: Alignment.centerRight, 
-                      ).createShader(bounds);
-                    },
-                    child: Text(
-                      "Forgot Your Password?",
-                      style: TextStyle(
-                        fontSize: 16.0,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.white, // The color of the text within the gradient
-                      ),
-                    ),
-                  )
-      ),
+          onPressed: () {},
+          style: TextButton.styleFrom(
+            padding: EdgeInsets.all(0.0),
+            minimumSize: Size(0, 0),
+          ),
+          child: ShaderMask(
+            shaderCallback: (Rect bounds) {
+              return LinearGradient(
+                colors: [Colors.deepOrange, Colors.greenAccent],
+                begin: Alignment.centerLeft,
+                end: Alignment.centerRight,
+              ).createShader(bounds);
+            },
+            child: Text(
+              "Forgot Your Password?",
+              style: TextStyle(
+                fontSize: 16.0,
+                fontWeight: FontWeight.bold,
+                color:
+                    Colors.white, // The color of the text within the gradient
+              ),
+            ),
+          )),
     );
   }
 
@@ -378,6 +378,7 @@ class _LoginScreenState extends State<LoginScreen> {
       onTap: () async {
         if (_formStore.canLogin) {
           DeviceUtils.hideKeyboard(context);
+          _userStore.login(_formStore.userEmail, _formStore.password);
           _formStore.login();
         } else {
           _showErrorMessage('Please fill in all fields');
