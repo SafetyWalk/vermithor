@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:safewalk/constants/colors.dart';
 import 'package:safewalk/data/sharedpref/constants/preferences.dart';
+import 'package:safewalk/stores/user/user_store.dart';
 import 'package:safewalk/utils/routes/routes.dart';
 import 'package:safewalk/stores/form/form_store.dart';
 import 'package:safewalk/stores/theme/theme_store.dart';
@@ -30,6 +31,7 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
   //stores:---------------------------------------------------------------------
   late ThemeStore _themeStore;
   late FormStore _formStore;
+  late UserStore _userStore;
 
   //focus node:-----------------------------------------------------------------
   late FocusNode _passwordFocusNode;
@@ -54,6 +56,7 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
     super.didChangeDependencies();
     _themeStore = Provider.of<ThemeStore>(context);
     _formStore = Provider.of<FormStore>(context);
+    _userStore = Provider.of<UserStore>(context);
   }
 
   @override
@@ -169,8 +172,7 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
             SizedBox(
               height: DeviceUtils.getScaledHeight(context, 0.23),
             ),
-            if (_isDone)
-              _buildNextButton()
+            if (_isDone) _buildNextButton()
           ],
         ),
       ),
@@ -238,6 +240,15 @@ class _SelfPictScreenState extends State<SelfPictScreen> {
   Widget _buildNextButton() {
     return InkWell(
       onTap: () {
+        _userStore.registerManual(
+          _formStore.username,
+          _formStore.userEmail,
+          _formStore.password,
+          _formStore.firstName,
+          _formStore.lastName,
+          _formStore.phoneNumber,
+          _formStore.photoUrl,
+        );
         Navigator.of(context).pushNamed(Routes.success);
       },
       child: Container(

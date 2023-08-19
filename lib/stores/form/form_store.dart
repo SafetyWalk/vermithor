@@ -152,7 +152,7 @@ abstract class _FormStore with Store {
   void validatePassword(String value) {
     if (value.isEmpty) {
       formErrorStore.password = "Password can't be empty";
-    } else if (value.length < 6) {
+    } else if (value.length < 8) {
       formErrorStore.password = "Password must be at-least 6 characters long";
     } else {
       formErrorStore.password = null;
@@ -192,7 +192,7 @@ abstract class _FormStore with Store {
   void validatePhoneNumber(String value) {
     if (value.isEmpty) {
       formErrorStore.phoneNumber = "Phone number can't be empty";
-    } else if (!isAlpha(value)) {
+    } else if (isAlpha(value)) {
       formErrorStore.phoneNumber = "Please enter a valid phone number";
     } else {
       formErrorStore.phoneNumber = null;
