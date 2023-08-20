@@ -111,7 +111,7 @@ abstract class _UserStore with Store {
         // check if the user is a first-time user
         DateTime? creationTime = user.metadata.creationTime;
         DateTime? lastSignInTime = user.metadata.lastSignInTime;
-        if (lastSignInTime!.difference(creationTime!) < Duration(days: 30)) {
+        if (lastSignInTime!.difference(creationTime!) < Duration(minutes: 1)) {
           print('first time user');
           registerGoogle(
             firebaseUser!.currentUser!.uid,
