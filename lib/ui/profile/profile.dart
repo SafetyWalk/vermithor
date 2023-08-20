@@ -19,7 +19,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late LanguageStore _languageStore;
   late UserStore _userStore;
 
-  bool _alwaysOnLocation = false;
+  bool _alwaysOnLocation = true;
   bool _zzz = false;
 
   @override
