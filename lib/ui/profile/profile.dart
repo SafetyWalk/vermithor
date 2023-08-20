@@ -1,15 +1,12 @@
-import 'package:safewalk/data/sharedpref/constants/preferences.dart';
+import 'package:safewalk/constants/colors.dart';
 import 'package:safewalk/stores/user/user_store.dart';
 import 'package:safewalk/utils/device/device_utils.dart';
-import 'package:safewalk/utils/routes/routes.dart';
 import 'package:safewalk/stores/language/language_store.dart';
 import 'package:safewalk/stores/theme/theme_store.dart';
 import 'package:safewalk/utils/locale/app_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:material_dialog/material_dialog.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   @override
@@ -21,6 +18,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   late ThemeStore _themeStore;
   late LanguageStore _languageStore;
   late UserStore _userStore;
+
+  bool _alwaysOnLocation = false;
+  bool _zzz = false;
 
   @override
   void initState() {
@@ -40,64 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(),
       body: _buildBody(),
-    );
-  }
-
-  // app bar methods:-----------------------------------------------------------
-  PreferredSizeWidget _buildAppBar() {
-    return AppBar(
-      title: Text('SafeWalk Profile'),
-      actions: _buildActions(context),
-    );
-  }
-
-  List<Widget> _buildActions(BuildContext context) {
-    return <Widget>[
-      _buildLanguageButton(),
-      _buildThemeButton(),
-      _buildLogoutButton(),
-    ];
-  }
-
-  Widget _buildThemeButton() {
-    return Observer(
-      builder: (context) {
-        return IconButton(
-          onPressed: () {
-            _themeStore.changeBrightnessToDark(!_themeStore.darkMode);
-          },
-          icon: Icon(
-            _themeStore.darkMode ? Icons.brightness_5 : Icons.brightness_3,
-          ),
-        );
-      },
-    );
-  }
-
-  Widget _buildLogoutButton() {
-    return IconButton(
-      onPressed: () {
-        SharedPreferences.getInstance().then((preference) {
-          preference.setBool(Preferences.is_logged_in, false);
-          Navigator.of(context).pushReplacementNamed(Routes.login);
-        });
-      },
-      icon: Icon(
-        Icons.power_settings_new,
-      ),
-    );
-  }
-
-  Widget _buildLanguageButton() {
-    return IconButton(
-      onPressed: () {
-        _buildLanguageDialog();
-      },
-      icon: Icon(
-        Icons.language,
-      ),
     );
   }
 
@@ -106,10 +49,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
-          SizedBox(
-            height: DeviceUtils.getScaledHeight(context, 0.1)
+          Stack(
+            children: <Widget>[
+              Center(
+                child: Image.network(
+                  _userStore.firebaseUser!.currentUser?.photoURL ??
+                      "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
+                  scale: 0.225,
+                ),
+              ),
+              SizedBox(height: DeviceUtils.getScaledHeight(context, 0.2)),
+              Column(
+                children: [
+                  SizedBox(height: DeviceUtils.getScaledHeight(context, 0.35)),
+                  Container(
+                    height: DeviceUtils.getScaledHeight(context, 0.65),
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          AppColors.backgroundDark,
+                          AppColors.backgroundDark,
+                        ],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(50),
+                        topRight: Radius.circular(50),
+                      ),
+                    ),
+                    child: _buildMainContent(),
+                  ),
+                ],
+              )
+            ],
           ),
-          _buildMainContent(),
         ],
       ),
     );
@@ -117,54 +92,168 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   Widget _buildMainContent() {
     return Container(
-      // create a button to redirect to maps
-      child: Center(
-        child: Column(
-          children: [
-            Text(
-              "Welcome ${_userStore.firebaseUser!.currentUser?.displayName ?? "Guest User"}",
-              style: TextStyle(
-                fontSize: 20,
+      margin: EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Container(
+              height: 5,
+              width: 75,
+              decoration: BoxDecoration(
+                color: Colors.white.withOpacity(0.5),
+                borderRadius: BorderRadius.circular(10),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Your email is: ${_userStore.firebaseUser!.currentUser?.email ?? "Guest User"}",
-                textAlign: TextAlign.center,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Text(
+                "${_userStore.firebaseUser!.currentUser?.displayName ?? "Guest User"}",
                 style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Montserrat",
+                ),
+                textAlign: TextAlign.start,
+              ),
+              IconButton(
+                onPressed: () {
+                  // TODO: Edit profile
+                },
+                icon: Icon(
+                  Icons.edit,
+                  color: AppColors.primaryDark,
                 ),
               ),
-            ),
-            Text(
-              "Your phone number is: ${_userStore.firebaseUser!.currentUser?.phoneNumber ?? "Not Provided"}",
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                "Your Google UID is:\n${_userStore.firebaseUser!.currentUser?.uid ?? "Not Provided"}",
-                textAlign: TextAlign.center,
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                "${_userStore.firebaseUser!.currentUser?.phoneNumber ?? "phone number empty"}",
                 style: TextStyle(
                   fontSize: 20,
+                  fontFamily: "Montserrat",
+                  color: Colors.grey.withOpacity(0.5),
                 ),
+                textAlign: TextAlign.start,
               ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                "${_userStore.firebaseUser!.currentUser?.email ?? "Guest User"}",
+                style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: "Montserrat",
+                  color: Colors.grey.withOpacity(0.5),
+                ),
+                textAlign: TextAlign.start,
+              ),
+            ],
+          ),
+          SizedBox(height: 30),
+          Row(
+            children: [
+              Text(
+                "Settings and Privacy",
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Montserrat",
+                ),
+                textAlign: TextAlign.start,
+              ),
+            ],
+          ),
+          SizedBox(height: 10),
+          Container(
+            height: 50,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(10),
             ),
-            Image.network(
-              _userStore.firebaseUser!.currentUser?.photoURL ?? "https://www.pngitem.com/pimgs/m/146-1468479_my-profile-icon-blank-profile-picture-circle-hd.png",
-              height: 200,
-              width: 200,
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Icon(Icons.location_pin, color: AppColors.primaryDark),
+                ),
+                Text(
+                  "Always-on location tracking",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Montserrat",
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+                Spacer(
+                  flex: 1,
+                ),
+                Switch(
+                  value: _alwaysOnLocation,
+                  onChanged: (value) {
+                    setState(() {
+                      _alwaysOnLocation = value;
+                    });
+                  },
+                  activeTrackColor: AppColors.primaryDark,
+                  activeColor: AppColors.primaryDark,
+                  
+                ),
+              ],
             ),
-          ],
-        ),
+          ),
+          SizedBox(height: 10),
+          Container(
+            height: 50,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: Colors.grey.withOpacity(0.15),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                  child: Icon(Icons.location_pin, color: AppColors.primaryDark),
+                ),
+                Text(
+                  "zzz",
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: "Montserrat",
+                  ),
+                  textAlign: TextAlign.start,
+                ),
+                Spacer(
+                  flex: 1,
+                ),
+                Switch(
+                  value: _zzz,
+                  onChanged: (value) {
+                    setState(() {
+                      _zzz = value;
+                    });
+                  },
+                  activeTrackColor: AppColors.primaryDark,
+                  activeColor: AppColors.primaryDark,
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }
-
-
 
   // General Methods:-----------------------------------------------------------
   _buildLanguageDialog() {
