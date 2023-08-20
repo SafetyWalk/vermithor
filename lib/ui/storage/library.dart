@@ -22,7 +22,7 @@ class _LibraryScreenState extends State<LibraryScreen> {
   }
 
   void _downloadImageFiles() async {
-    final imagesRef = storageRef.child("images");
+    final imagesRef = storageRef.child("images/profile");
 
     try {
       final allImages = await imagesRef.listAll();
@@ -47,20 +47,22 @@ class _LibraryScreenState extends State<LibraryScreen> {
       appBar: AppBar(
         title: const Text("Library"),
       ),
-      body: Center(
-        child: _images == null
-            ? const CircularProgressIndicator()
-            : Wrap(
-                spacing: 8.0,
-                runSpacing: 8.0,
-                children: [
-                  for (var image in _images!)
-                    Image.memory(
-                      image,
-                      width: 150,
-                    )
-                ],
-              ),
+      body: SingleChildScrollView (
+        child: Center(
+          child: _images == null
+              ? const CircularProgressIndicator()
+              : Wrap(
+                  spacing: 8.0,
+                  runSpacing: 8.0,
+                  children: [
+                    for (var image in _images!)
+                      Image.memory(
+                        image,
+                        width: 150,
+                      )
+                  ],
+                ),
+        ),
       ),
     );
   }
