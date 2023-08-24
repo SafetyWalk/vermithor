@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:safewalk/constants/colors.dart';
+import 'package:safewalk/utils/routes/routes.dart';
 
 class PhoneScreen extends StatefulWidget {
   @override
@@ -68,7 +69,8 @@ class _PhoneScreenState extends State<PhoneScreen> {
         ),
       ),
       onTap: () {
-        print("add emergency");
+        // print("add emergency");
+        Navigator.of(context).pushNamed(Routes.addEmergency);
       },
     );
   }

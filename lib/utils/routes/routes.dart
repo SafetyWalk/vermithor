@@ -8,6 +8,7 @@ import 'package:safewalk/ui/maps/distance.dart';
 import 'package:safewalk/ui/maps/maps.dart';
 import 'package:safewalk/ui/dev/navigator.dart';
 import 'package:safewalk/ui/onboard/onboarding.dart';
+import 'package:safewalk/ui/phone/add_emergency.dart';
 import 'package:safewalk/ui/post/post.dart';
 import 'package:safewalk/ui/splash/splash.dart';
 import 'package:flutter/material.dart';
@@ -35,6 +36,8 @@ class Routes {
   static const String library = '/library';
   static const String navigator = '/navigator';
 
+  static const String addEmergency = '/addEmergency';
+
   static final routes = <String, WidgetBuilder>{
     splash: (BuildContext context) => SplashScreen(),
     login: (BuildContext context) => LoginScreen(),
@@ -47,9 +50,10 @@ class Routes {
     biodata: (BuildContext context) => BiodataScreen(),
     selfpict: (BuildContext context) => SelfPictScreen(),
     success: (BuildContext context) => SuccessScreen(),
-
     storage: (BuildContext context) => StorageScreen(),
     library: (BuildContext context) => LibraryScreen(),
     navigator: (BuildContext context) => NavigatorScreen(),
+
+    addEmergency: (BuildContext context) => AddEmergencyScreen(),
   };
 }
